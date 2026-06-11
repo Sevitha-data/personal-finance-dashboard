@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Personal Finance Dashboard</title>
+    <link rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+
+<h1>💰 Personal Finance Dashboard</h1>
+
+<form action="/add" method="POST">
+
+    <input
+        type="text"
+        name="title"
+        placeholder="Expense Name"
+        required>
+
+    <input
+        type="number"
+        name="amount"
+        placeholder="Amount"
+        required>
+        <select name="type">
+
+    <option value="Income">
+        Income
+    </option>
+
+    <option value="Expense">
+        Expense
+    </option>
+
+</select>
+
+    <button type="submit">
+        Add Expense
+    </button>
+
+</form>
+<div class="dashboard-cards">
+
+    <div class="card income-card">
+        <h3>Income</h3>
+        <h2>₹{{ income }}</h2>
+    </div>
+
+    <div class="card expense-card">
+        <h3>Expenses</h3>
+        <h2>₹{{ expense_total }}</h2>
+    </div>
+
+    <div class="card balance-card">
+        <h3>Balance</h3>
+        <h2>₹{{ balance }}</h2>
+    </div>
+    <div class="card transaction-card">
+    <h3>Transactions</h3>
+    <h2>{{ transaction_count }}</h2>
+</div>
+
+</div>
+</div>
+
+<h2>🕒 Recent Activity</h2>
+
+<div class="recent-container">
+
+{% for expense in expenses[:4] %}
+
+<div class="recent-card">
+
+    <h3>{{ expense[1] }}</h3>
+
+    <p>₹{{ expense[2] }}</p>
+
+    <small>
+        {{ expense[3] }} •
+        {{ expense[4] }} •
+        {{ expense[5] }}
+    </small>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+<table>
+
+    <tr>
+        <th>ID</th>
+<th>Title</th>
+<th>Amount</th>
+<th>Date</th>
+<th>Type</th>
+<th>Action</th>
+    </tr>
+
+    {% for expense in expenses %}
+    <tr>
+
+        <td>{{ expense[0] }}</td>
+<td>{{ expense[1] }}</td>
+<td>₹{{ expense[2] }}</td>
+<td>{{ expense[4] }}</td>
+<td>{{ expense[3] }}</td>
+        <td>
+    <a href="/edit/{{ expense[0] }}">Edit</a> |
+    <a href="/delete/{{ expense[0] }}">Delete</a>
+</td>
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+</div>
+<form method="GET" action="/">
+    <input
+        type="text"
+        name="search"
+        placeholder="Search transaction...">
+        <select name="filter">
+    <option value="">All</option>
+    <option value="Income">Income</option>
+    <option value="Expense">Expense</option>
+</select>
+
+    <button type="submit">
+        Search
+    </button>
+</form>
+</body>
+</html>
