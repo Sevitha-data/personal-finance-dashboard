@@ -159,6 +159,21 @@ def update_expense(id):
     conn.close()
 
     return redirect("/")
+@app.route("/delete/<int:id>")
+def delete_expense(id):
+
+    conn = sqlite3.connect("expense.db")
+    cur = conn.cursor()
+
+    cur.execute(
+        "DELETE FROM expenses WHERE id=?",
+        (id,)
+    )
+
+    conn.commit()
+    conn.close()
+
+    return redirect("/")
 
 
 if __name__ == "__main__":
